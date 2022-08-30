@@ -11,7 +11,7 @@ from states.personalData import PersonalData
 from datetime import datetime
 
 
-@dp.message_handler(text="Ro'yhatdan o'tish", state=None)
+@dp.message_handler(text="📝 Ro'yhatdan o'tish", state=None)
 async def start_ref(msg: types.Message):
     await msg.reply("Ro'yhatdan o'tish qismiga xush kelibsiz.\nIltimos kiritayortgan ma'lumotlaringizni tog'ri va to'liq shaklda kiriting.")
     await msg.answer("Ismingizni kiriting.", reply_markup=ReplyKeyboardRemove())
