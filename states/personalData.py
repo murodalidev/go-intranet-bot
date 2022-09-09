@@ -7,3 +7,8 @@ class PersonalData(StatesGroup):
     phone = State()
     confirm = State()
 
+
+class ReplyMessage(StatesGroup):
+    message_id = State()
+    description = State()
+
