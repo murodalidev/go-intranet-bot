@@ -18,7 +18,7 @@ async def reply_to_assignment(call: types.CallbackQuery, state: FSMContext):
     )
 
     await call.message.reply('Javobingizni yozing: ', reply_markup=homeKey)
-    await call.answer(cache_time=3)
+    await call.answer(cache_time=1)
     await ReplyMessage.description.set()
 
 
