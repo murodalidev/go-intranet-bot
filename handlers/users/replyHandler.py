@@ -46,15 +46,13 @@ async def write_description(msg: types.Message, state: FSMContext):
 
     tg_users = []
     data = await db.select_user(id=message[4])
-
-    for row in data:
-        tg_users.append({
-            'id': row[0],
-            'username': row[2],
-            'first_name': row[3],
-            'last_name': row[4],
-            'phone': row[5]
-        })
+    tg_users.append({
+        'id': data[0],
+        'username': data[2],
+        'first_name': data[3],
+        'last_name': data[4],
+        'phone': data[5]
+    })
     await db.save_reply_to_intranet_chatbot(
         sender_id=9749,
         created_by_id=9749,
