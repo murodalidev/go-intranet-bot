@@ -63,7 +63,7 @@ class Database:
 
     async def reply_to_assignment(self, sender_id, receiver_id, document_id, chat_id, description, success, message_id,
                                   created_date):
-        sql = "INSERT INTO alerts_bot_replytelegramassignment (sender_id, receiver_id, document_id, chat_id, description, success, message_id, created_date) VALUES ($1, $2, $3, $4, $5, $6, $7) returning *"
+        sql = "INSERT INTO alerts_bot_replytelegramassignment (sender_id, receiver_id, document_id, chat_id, description, success, message_id, created_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning *"
         return await self.execute(sql, sender_id, receiver_id, document_id, chat_id, description, success, message_id,
                                   created_date, fetchrow=True)
 

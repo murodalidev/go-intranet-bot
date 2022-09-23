@@ -41,7 +41,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         description=state_data.get('description'),
         success=True,
         message_id=message_id,
-        created_date=datetime.now(),
+        created_date=datetime.now()
     )
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
