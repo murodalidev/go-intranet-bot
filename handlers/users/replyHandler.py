@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 from aiogram import types
@@ -44,15 +45,14 @@ async def write_description(msg: types.Message, state: FSMContext):
         created_date=datetime.now()
     )
 
-    tg_users = []
     data = await db.select_user(id=message[4])
-    tg_users.append({
+    tg_user = {
         'id': data[0],
         'username': data[2],
         'first_name': data[3],
         'last_name': data[4],
         'phone': data[5]
-    })
+    }
     await db.save_reply_to_intranet_chatbot(
         sender_id=9749,
         created_by_id=9749,
@@ -60,7 +60,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         type='BOT_MESSAGE',
         chat_id=message[8],
         file_id=message[6],
-        telegram_users=tg_users,
+        telegram_users=json.dumps(tg_user),
         created_date=datetime.now(),
         modified_date=datetime.now(),
         text=state_data.get('description')
