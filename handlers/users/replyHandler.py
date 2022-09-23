@@ -34,7 +34,7 @@ async def write_description(msg: types.Message, state: FSMContext):
     message = await db.select_message(message_id=message_id)
     # print(message)
     await db.reply_to_assignment(
-        sender_id=9749,
+        sender_id=message[4],
         receiver_id=message[5],
         document_id=message[6],
         chat_id=message[8],
