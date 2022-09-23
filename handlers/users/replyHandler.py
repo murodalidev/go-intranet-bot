@@ -63,7 +63,8 @@ async def write_description(msg: types.Message, state: FSMContext):
         telegram_users=json.dumps(tg_user),
         created_date=datetime.now(),
         modified_date=datetime.now(),
-        text=state_data.get('description')
+        text=state_data.get('description'),
+        edited=False
     )
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)

@@ -68,10 +68,10 @@ class Database:
                                   created_date, fetchrow=True)
 
     async def save_reply_to_intranet_chatbot(self, sender_id, created_by_id, modified_by_id, type, chat_id, file_id,
-                                             telegram_users, created_date, modified_date, text):
-        sql = "INSERT INTO message (sender_id, created_by_id, modified_by_id, type, chat_id, file_id, telegram_users, created_date, modified_date, text) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *"
+                                             telegram_users, created_date, modified_date, text, edited):
+        sql = "INSERT INTO message (sender_id, created_by_id, modified_by_id, type, chat_id, file_id, telegram_users, created_date, modified_date, text, edited) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *"
         return await self.execute(sql, sender_id, created_by_id, modified_by_id, type, chat_id, file_id,
-                                  telegram_users, created_date, modified_date, text, fetchrow=True)
+                                  telegram_users, created_date, modified_date, text, edited, fetchrow=True)
 
     async def select_message(self, **kwargs):
         sql = "SELECT * FROM alerts_bot_telegramassignment WHERE "
