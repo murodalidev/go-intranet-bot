@@ -59,7 +59,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         modified_by_id=9749,
         type='BOT_MESSAGE',
         chat_id=message[8],
-        file_id=message[6],
+        file_id=None,
         telegram_users=json.dumps(tg_user),
         created_date=datetime.now(),
         modified_date=datetime.now(),
