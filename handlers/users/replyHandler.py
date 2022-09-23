@@ -32,7 +32,7 @@ async def write_description(msg: types.Message, state: FSMContext):
     message_id = state_data.get('message_id')
 
     message = await db.select_message(message_id=message_id)
-    # print(message)
+
     await db.reply_to_assignment(
         sender_id=message[4],
         receiver_id=message[5],
@@ -42,6 +42,30 @@ async def write_description(msg: types.Message, state: FSMContext):
         success=True,
         message_id=message_id,
         created_date=datetime.now()
+    )
+
+    tg_users = []
+    data = await db.select_user(id=message[4])
+
+    for row in data:
+        tg_users.append({
+            'id': row[0],
+            'username': row[2],
+            'first_name': row[3],
+            'last_name': row[4],
+            'phone': row[5]
+        })
+    await db.save_reply_to_intranet_chatbot(
+        sender_id=9749,
+        created_by_id=9749,
+        modified_by_id=9749,
+        type='BOT_MESSAGE',
+        chat_id=message[8],
+        file_id=message[6],
+        telegram_users=tg_users,
+        created_date=datetime.now(),
+        modified_date=datetime.now(),
+        text=state_data.get('description')
     )
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
