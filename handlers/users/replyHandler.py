@@ -32,12 +32,12 @@ async def write_description(msg: types.Message, state: FSMContext):
     message_id = state_data.get('message_id')
 
     message = await db.select_message(message_id=message_id)
-    print(message)
+    # print(message)
     await db.reply_to_assignment(
-        sender_id=message[4],
+        sender_id=9749,
         receiver_id=message[5],
         document_id=message[6],
-        chat_id=message[7],
+        chat_id=message[8],
         description=state_data.get('description'),
         success=True,
         message_id=message_id,
