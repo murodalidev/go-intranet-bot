@@ -109,7 +109,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         upload_payload = {}
         # file_bytes = io.BytesIO(file)
         upload_payload_files = {
-            ('document', (f'{file.name}', open(file.name, 'rb'), '*'))
+            ('document', (f'{file.getvalue()}', open(file_path, 'rb'), '*'))
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
