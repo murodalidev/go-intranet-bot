@@ -61,9 +61,9 @@ async def send_message_via_socket(data):
 
 
 def run_socket(chat_id, new_msg):
-    asyncio.get_event_loop().run_until_complete(connect_socket())
-    asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
-    asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
+    asyncio.get_running_loop().run_until_complete(connect_socket())
+    asyncio.get_running_loop().run_until_complete(socket_chat_handshake(chat_id))
+    asyncio.get_running_loop().run_until_complete(send_message_via_socket(new_msg))
 
 
 @dp.message_handler(state=ReplyMessage.description)
