@@ -114,6 +114,6 @@ async def write_description(msg: types.Message, state: FSMContext):
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
 
-    asyncio.get_event_loop().run_until_complete(connect_socket())
-    asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
-    asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
+    await asyncio.get_event_loop().run_until_complete(connect_socket())
+    await asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
+    await asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
