@@ -38,26 +38,30 @@ def get_token():
     return res.get('token')
 
 
-async def connect_socket():
+async def connect_socket(chat_id, new_msg):
     url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
     async with websockets.connect(url) as websocket:
         await websocket.send(json.dumps({'command': 'user_handshake'}))
         # await websocket.send(json.dumps({'command': 'chat_handshake', 'chat_id': 1092, 'chat_type': 'bot'}))
         await websocket.recv()
-
-
-async def socket_chat_handshake(chat_id):
-    url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
-    async with websockets.connect(url) as websocket:
         await websocket.send(json.dumps({'command': 'chat_handshake', 'chat_id': chat_id, 'chat_type': 'bot'}))
         await websocket.recv()
-
-
-async def send_message_via_socket(data):
-    url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
-    async with websockets.connect(url) as websocket:
-        await websocket.send(json.dumps(data))
+        await websocket.send(json.dumps(new_msg))
         await websocket.recv()
+
+
+# async def socket_chat_handshake(chat_id):
+#     url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
+#     async with websockets.connect(url) as websocket:
+#         await websocket.send(json.dumps({'command': 'chat_handshake', 'chat_id': chat_id, 'chat_type': 'bot'}))
+#         await websocket.recv()
+#
+#
+# async def send_message_via_socket(data):
+#     url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
+#     async with websockets.connect(url) as websocket:
+#         await websocket.send(json.dumps(data))
+#         await websocket.recv()
 
 
 @dp.message_handler(state=ReplyMessage.description)
@@ -113,9 +117,9 @@ async def write_description(msg: types.Message, state: FSMContext):
     #     edited=False,
     #     deleted=False
     # )
-    await connect_socket()
-    await socket_chat_handshake(chat_id)
-    await send_message_via_socket(new_msg)
+    await connect_socket(chat_id, new_msg)
+    # await socket_chat_handshake(chat_id)
+    # await send_message_via_socket(new_msg)
 
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
