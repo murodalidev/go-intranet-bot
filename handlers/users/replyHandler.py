@@ -101,14 +101,14 @@ async def write_description(msg: types.Message, state: FSMContext):
         await send_message_via_socket(chat_id, new_msg)
     if msg.content_type == "document":
         file_id_doc = msg.document.file_id
-        file_bi = await bot.get_file(file_id_doc)
-        file_path = file_bi.file_path
+        file_obj = await bot.get_file(file_id_doc)
+        file_path = file_obj.file_path
         file = await bot.download_file(file_path)
 
         upload_url = "https://intranet-api.asakabank.uz/upload/"
         upload_payload = {}
         upload_payload_files = {
-            ('document', (f'{file}', file, '*'))
+            ('document', (f'{file_path.split("/")[-1]}', file, '*'))
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
