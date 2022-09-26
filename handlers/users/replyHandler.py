@@ -91,7 +91,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
 
     if msg.content_type == "photo":
-        await msg.answer("Iltimos document formatida jo'nating!", reply_markup=homeKey)
+        await msg.answer("Iltimos fayl formatida jo'nating!", reply_markup=homeKey)
 
     if msg.content_type == "document":
         file_id_doc = msg.document.file_id
