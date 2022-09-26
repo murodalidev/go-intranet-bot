@@ -16,7 +16,6 @@ from states.personalData import ReplyMessage
 @dp.callback_query_handler(text='reply')
 @dp.message_handler(state=ReplyMessage.message_id)
 async def reply_to_assignment(call: types.CallbackQuery, state: FSMContext):
-
     message_id = call.message.message_id
     await state.update_data(
         {'message_id': message_id}
@@ -37,17 +36,6 @@ def get_token():
 
 
 async def send_message_via_socket(chat_id, new_msg):
-    url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
-    async with websockets.connect(url) as websocket:
-        await websocket.send(json.dumps({'command': 'user_handshake'}))
-        await websocket.recv()
-        await websocket.send(json.dumps({'command': 'chat_handshake', 'chat_id': chat_id, 'chat_type': 'bot'}))
-        await websocket.recv()
-        await websocket.send(json.dumps(new_msg))
-        await websocket.recv()
-
-
-async def send_document_via_socket(chat_id, new_msg):
     url = f'wss://intranet-api.asakabank.uz/ws/?token={get_token()}'
     async with websockets.connect(url) as websocket:
         await websocket.send(json.dumps({'command': 'user_handshake'}))
@@ -113,6 +101,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
         new_msg['file'] = document_id
+        new_msg['text'] = msg.caption
         await send_message_via_socket(chat_id, new_msg)
 
     await db.reply_to_assignment(
