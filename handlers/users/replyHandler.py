@@ -106,8 +106,10 @@ async def write_description(msg: types.Message, state: FSMContext):
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
+        ext = msg.document.mime_type.split('/')[-1]
         new_msg['file'] = document_id
         new_msg['text'] = msg.caption
+        new_msg['ext'] = ext
         await send_message_via_socket(chat_id, new_msg)
         await state.finish()
         await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
@@ -122,4 +124,3 @@ async def write_description(msg: types.Message, state: FSMContext):
         message_id=message_id,
         created_date=datetime.now()
     )
-
