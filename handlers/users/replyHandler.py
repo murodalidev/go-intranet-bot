@@ -1,5 +1,7 @@
 import asyncio
 import json
+import os
+
 import websockets
 import requests
 from datetime import datetime
@@ -26,10 +28,10 @@ async def reply_to_assignment(call: types.CallbackQuery, state: FSMContext):
     await ReplyMessage.description.set()
 
 
-def get_token(username='998002002020', password='test2021'):
+def get_token():
     data = {
-        "username": username,
-        "password": password
+        "username": os.getenv("INTRANET_BOT_USERNAME"),
+        "password": os.getenv("INTRANET_BOT_PASSWORD")
     }
     res = requests.post('https://intranet-api.asakabank.uz/login/', json=data).json()
 
