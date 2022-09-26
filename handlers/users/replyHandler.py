@@ -122,7 +122,6 @@ async def write_description(msg: types.Message, state: FSMContext):
     # await socket_chat_handshake(chat_id)
     # await send_message_via_socket(new_msg)
 
-
-asyncio.get_event_loop().run_until_complete(connect_socket())
-asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
-asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
+    asyncio.get_event_loop().run_until_complete(connect_socket())
+    asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
+    asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
