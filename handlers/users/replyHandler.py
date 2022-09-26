@@ -60,7 +60,7 @@ async def send_message_via_socket(data):
         await websocket.recv()
 
 
-async def run_socket(chat_id, new_msg):
+def run_socket(chat_id, new_msg):
     asyncio.get_event_loop().run_until_complete(connect_socket())
     asyncio.get_event_loop().run_until_complete(socket_chat_handshake(chat_id))
     asyncio.get_event_loop().run_until_complete(send_message_via_socket(new_msg))
@@ -121,4 +121,4 @@ async def write_description(msg: types.Message, state: FSMContext):
     # )
     await state.finish()
     await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
-    await run_socket(chat_id=chat_id, new_msg=new_msg)
+    run_socket(chat_id=chat_id, new_msg=new_msg)
