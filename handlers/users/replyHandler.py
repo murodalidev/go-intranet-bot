@@ -112,7 +112,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
-        new_msg['file_id'] = document_id
+        new_msg['file'] = document_id
         await send_message_via_socket(chat_id, new_msg)
 
     await db.reply_to_assignment(
