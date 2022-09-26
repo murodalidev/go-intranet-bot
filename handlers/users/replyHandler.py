@@ -108,7 +108,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         upload_url = "https://intranet-api.asakabank.uz/upload/"
         upload_payload = {}
         upload_payload_files = {
-            ('document', (f'{file}', file, '*'))
+            ('document', (f'{file}', file.getvalue(), '*'))
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
