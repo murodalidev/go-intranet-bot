@@ -1,3 +1,4 @@
+import io
 import json
 import os
 
@@ -16,7 +17,6 @@ from states.personalData import ReplyMessage
 @dp.callback_query_handler(text='reply')
 @dp.message_handler(state=ReplyMessage.message_id)
 async def reply_to_assignment(call: types.CallbackQuery, state: FSMContext):
-
     message_id = call.message.message_id
     await state.update_data(
         {'message_id': message_id}
@@ -107,8 +107,9 @@ async def write_description(msg: types.Message, state: FSMContext):
 
         upload_url = "https://intranet-api.asakabank.uz/upload/"
         upload_payload = {}
+        file_bytes = io.BytesIO(file)
         upload_payload_files = {
-            ('document', (f'{file.read()}', file.read(), '*'))
+            ('document', (f'{file.name}', file_bytes, '*'))
         }
         upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
         document_id = upload_file.json().get('id')
