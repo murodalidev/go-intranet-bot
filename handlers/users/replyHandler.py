@@ -72,13 +72,9 @@ async def write_description(msg: types.Message, state: FSMContext):
     )
 
     data = await db.select_user(id=message[4])
-    tg_user = {
-        'id': data[0],
-        'username': data[2],
-        'first_name': data[3],
-        'last_name': data[4],
-        'phone': data[5]
-    }
+    tg_user = [
+        data[0]
+    ]
     new_msg = {
         'command': 'new_message',
         'chat_id': chat_id,
