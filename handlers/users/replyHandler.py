@@ -46,7 +46,7 @@ async def send_message_via_socket(chat_id, new_msg):
         await websocket.recv()
 
 
-@dp.message_handler(state=ReplyMessage.description, content_types=['text', 'document'])
+@dp.message_handler(state=ReplyMessage.description, content_types=['text', 'document', 'photo'])
 async def write_description(msg: types.Message, state: FSMContext):
     description = msg.text
     await state.update_data(
@@ -54,10 +54,10 @@ async def write_description(msg: types.Message, state: FSMContext):
     )
     state_data = await state.get_data()
     message_id = state_data.get('message_id')
-
     message = await db.select_message(message_id=message_id)
     chat_id = message[8]
     document_id = None
+    print(msg)
 
     data = await db.select_user(id=message[4])
     tg_user = [
@@ -87,6 +87,12 @@ async def write_description(msg: types.Message, state: FSMContext):
     # )
     if msg.content_type == "text":
         await send_message_via_socket(chat_id, new_msg)
+        await state.finish()
+        await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
+
+    if msg.content_type == "photo":
+        await msg.answer("Iltimos document formatida jo'nating!", reply_markup=homeKey)
+
     if msg.content_type == "document":
         file_id_doc = msg.document.file_id
         file_obj = await bot.get_file(file_id_doc)
@@ -103,6 +109,8 @@ async def write_description(msg: types.Message, state: FSMContext):
         new_msg['file'] = document_id
         new_msg['text'] = msg.caption
         await send_message_via_socket(chat_id, new_msg)
+        await state.finish()
+        await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
 
     await db.reply_to_assignment(
         sender_id=message[4],
@@ -115,5 +123,3 @@ async def write_description(msg: types.Message, state: FSMContext):
         created_date=datetime.now()
     )
 
-    await state.finish()
-    await msg.answer("Xabaringiz qabul qilindi", reply_markup=homeKey)
