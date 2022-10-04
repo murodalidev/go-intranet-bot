@@ -45,8 +45,10 @@ async def send_message_via_socket(chat_id, new_msg):
         await websocket.send(json.dumps(new_msg))
         await websocket.recv()
 
+CONTENT_TYPES = ["text", "document", "photo", "video", "video_note", "contact"]
 
-@dp.message_handler(state=ReplyMessage.description, content_types=['text', 'document', 'photo'])
+
+@dp.message_handler(state=ReplyMessage.description, content_types=CONTENT_TYPES)
 async def write_description(msg: types.Message, state: FSMContext):
     description = msg.text
     await state.update_data(
@@ -57,7 +59,6 @@ async def write_description(msg: types.Message, state: FSMContext):
     message = await db.select_message(message_id=message_id)
     chat_id = message[8]
     document_id = None
-    print(msg)
 
     data = await db.select_user(id=message[4])
     tg_user = [
