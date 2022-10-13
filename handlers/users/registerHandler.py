@@ -89,6 +89,6 @@ async def confirm(msg: types.Message, state: FSMContext):
             await bot.send_message(chat_id=admin, text=f"telegram_id: {telegram_id}\nusername: @{username}\nfull_name: {first_name} {last_name}\nphone: {phone}\ncreated_date: {created_date}")
     else:
         await state.finish()
-        await msg.answer("Ismingizni kiriting.", reply_markup=ReplyKeyboardRemove())
         await PersonalData.first_name.set()
+        await msg.answer("Ismingizni kiriting.", reply_markup=ReplyKeyboardRemove())
 
