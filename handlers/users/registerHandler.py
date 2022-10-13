@@ -14,8 +14,8 @@ from datetime import datetime
 @dp.message_handler(text="📝 Ro'yhatdan o'tish", state=None)
 async def start_ref(msg: types.Message):
     await msg.reply("Ro'yhatdan o'tish qismiga xush kelibsiz.\nIltimos kiritayortgan ma'lumotlaringizni tog'ri va to'liq shaklda kiriting.")
-    await msg.answer("Ismingizni kiriting.", reply_markup=ReplyKeyboardRemove())
     await PersonalData.first_name.set()
+    await msg.answer("Ismingizni kiriting.", reply_markup=ReplyKeyboardRemove())
 
 
 @dp.message_handler(state=PersonalData.first_name)
@@ -24,8 +24,8 @@ async def write_first_name(msg: types.Message, state: FSMContext):
     await state.update_data(
         {"first_name": first_name}
     )
-    await msg.answer('Familiyangizni kiriting.')
     await PersonalData.last_name.set()
+    await msg.answer('Familiyangizni kiriting.')
 
 
 @dp.message_handler(state=PersonalData.last_name)
@@ -71,7 +71,7 @@ async def confirm(msg: types.Message, state: FSMContext):
         last_name = state_data.get('last_name')
         phone = state_data.get('phone')
 
-        telegram_id =  msg.from_user.id
+        telegram_id = msg.from_user.id
         username = msg.from_user.username or None
         created_date = datetime.now()
 
