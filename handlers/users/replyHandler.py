@@ -32,7 +32,7 @@ def get_token():
     }
     res = requests.post('https://intranet-api.asakabank.uz/login/', json=data).json()
 
-    return res.get('token')
+    return res.get('access_token')
 
 
 async def send_message_via_socket(chat_id, new_msg):
@@ -44,6 +44,7 @@ async def send_message_via_socket(chat_id, new_msg):
         await websocket.recv()
         await websocket.send(json.dumps(new_msg))
         await websocket.recv()
+
 
 CONTENT_TYPES = ["text", "document", "photo", "video", "video_note", "contact"]
 
