@@ -1,15 +1,14 @@
 import json
 import os
-
-import websockets
-import requests
 from datetime import datetime
 
+import requests
+import websockets
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, db, bot
 from keyboards.default.homeKeyboard import homeKey
+from loader import dp, db, bot
 from states.personalData import ReplyMessage
 
 
@@ -30,7 +29,7 @@ def get_token():
         "username": os.getenv("INTRANET_BOT_USERNAME"),
         "password": os.getenv("INTRANET_BOT_PASSWORD")
     }
-    res = requests.post('https://intranet-api.asakabank.uz/login/', json=data).json()
+    res = requests.post('https://intranet-api.asakabank.uz/login/', json=data, verify=False).json()
 
     return res.get('access')
 
@@ -106,7 +105,7 @@ async def write_description(msg: types.Message, state: FSMContext):
         upload_payload_files = {
             ('document', (f'{file_path.split("/")[-1]}', file, '*'))
         }
-        upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files)
+        upload_file = requests.post(url=upload_url, data=upload_payload, files=upload_payload_files, verify=False)
         document_id = upload_file.json().get('id')
         ext = msg.document.mime_type.split('/')[-1]
         new_msg['file'] = document_id

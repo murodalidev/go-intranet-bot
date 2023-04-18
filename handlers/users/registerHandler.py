@@ -1,14 +1,13 @@
+from datetime import datetime
+
 from aiogram import types
+from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from data.config import ADMINS
-from loader import dp, db, bot
-from aiogram.dispatcher import FSMContext
-
 from keyboards.default.registerKeyboard import sendPhoneKey, confirmKey
+from loader import dp, db, bot
 from states.personalData import PersonalData
-
-from datetime import datetime
 
 
 @dp.message_handler(text="📝 Ro'yhatdan o'tish", state=None)

@@ -1,8 +1,10 @@
-from aiogram import types
 import logging
+
+from aiogram import types
+from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.types import ReplyKeyboardRemove
-from aiogram.dispatcher import FSMContext
+
 from keyboards.default.registerKeyboard import registerKey
 from loader import dp, db
 
